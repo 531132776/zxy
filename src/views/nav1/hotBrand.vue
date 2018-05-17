@@ -1,5 +1,12 @@
 <template>
 	<div class="hotBrand">
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+			<el-form >
+				<el-form-item>
+					<el-button type="primary" @click="handleAdd">新增</el-button>
+				</el-form-item>
+			</el-form>
+		</el-col>
     <p>
 			<span>排名</span>
 			<span style="float:right">指数</span>
@@ -11,6 +18,20 @@
             </div>
 			  </transition-group>
 		</draggagle>
+     <!--新增弹窗-->
+		<el-dialog class="addForm" title="新增" v-model="addFormVisible" :close-on-click-modal="false">
+      <ul>
+        <li v-for="(item,index) in citys" :key="index">
+          <p>{{item.name}}</p>
+            <el-checkbox v-for="(foo,index) in citys[index].lists" :key="index" @change="changeAll(foo,index)">{{foo.id}} {{foo.page}}</el-checkbox>
+          
+        </li>
+      </ul>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="addFormVisible = false">取消</el-button>
+				<el-button type="primary" @click="addNewList">提交</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -22,6 +43,56 @@ export default {
   },
   data() {
     return {
+      citys:[
+          {
+            name:'sfdg',
+            lists:[
+              {
+                id:'3426346',
+                page:'ewgweg'
+              },
+              {
+                id:'9798',
+                page:'hhk'
+              },
+              {
+                id:'898',
+                page:'lkml'
+              },
+            ]
+          },
+          {
+            name:'frgr',
+            lists:[
+              {
+                id:'342262',
+                page:'sgdg'
+              },
+              {
+                id:'435',
+                page:'ge'
+              },
+              {
+                id:'6546',
+                page:'tert'
+              },
+            ]
+          },
+          {
+            name:'fwefw',
+            lists:[
+              {
+                id:'645645',
+                page:'gsg'
+              },
+              {
+                id:'45',
+                page:'gsg'
+              },
+            ]
+          },
+      ],
+      addFormVisible:false,
       tags: [
         {
           brand: "奥迪",
@@ -39,10 +110,43 @@ export default {
           brand: "本田",
           id: "4"
         }
-      ]
+      ],
+      obj:{
+        id:"",
+        page:""
+      },
+      arr:[],
+      arr2:[]
+      // checkedCities:[
+      //     citys[]
+      // ]
     };
   },
   methods: {
+    changeAll(r,v){
+        
+        let newArr = [];
+        let arr2 = new Array();
+        
+        //this.obj += "{"+'id'+':'+r.id+','+'page'+':'+r.page+"}"+','
+        //newArr.push(this.obj)
+        this.obj.id = r.id;
+        this.obj.page = r.page;
+        
+        this.arr.push(this.obj)
+        console.log(this.arr)
+        
+    },
+    addNewList(){
+        this.addFormVisible = false
+    },
+    handleAdd(){
+      this.addFormVisible = true;
+      //console.log(this.citys)
+      for(let i=0; i<this.citys.length;i++){
+         console.log(this.citys[i].name)
+      }
+    },
     getdata(evt) {
       console.log(evt.draggedContext.element.id);
     },
